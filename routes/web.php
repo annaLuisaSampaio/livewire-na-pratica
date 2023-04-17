@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Livewire\Expense\{
+    ExpenseList,
     ExpenseCreate,
-    ExpenseEdit,
-    ExpenseList
+    ExpenseEdit
+};
+use App\Http\Livewire\Plan\{
+    PlanList,
+    PlanCreate    
 };
 use App\Models\Expense;
 use Illuminate\Support\Facades\File;
@@ -56,6 +60,13 @@ Route::middleware(['auth:sanctum','verified'])->group(function() {
 
             return response($image)->header('Content-Type', $mimeType);
         })->name('photo');
+    
+    });
+
+    Route::prefix('plans')->name('plans.')->group(function(){
+    
+        Route::get('/', PlanList::class)->name('index');
+        Route::get('/create', PlanCreate::class)->name('create');
     
     });
 });
