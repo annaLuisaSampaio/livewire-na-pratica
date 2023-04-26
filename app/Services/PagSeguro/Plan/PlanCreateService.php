@@ -1,28 +1,21 @@
 <?php
 namespace App\Services\PagSeguro\Plan;
 
+use App\Services\PagSeguro\Credentials;
 use Illuminate\Support\Facades\Http;
 
 class PlanCreateService
 {
-
-    public $email;
-    public $token;
-
-    public function __construct()
-    {
-        $this->email = config('pagueseguro.email');
-        $this->token = config('pagueseguro.token');
-    }
-
+    
     public function makeRequest(array $data)
     {
+        $url = Credentials::getCredentials('/pre-approvals/request/');
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.pagseguro.com.br.v3+json;charset=ISO-8859-1',
             'Content-Type' => 'application/json',
         ])
         ->post(
-            "https://ws.sandbox.pagseguro.uol.com.br/pre-approvals/request/?email={$this->email}&token={$this->token}",
+            $url,
             [
                 'reference' => $data['slug'],
                 'preApproval' => [
