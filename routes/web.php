@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Livewire\AlpineJquery;
 use App\Http\Livewire\Expense\{
     ExpenseList,
     ExpenseCreate,
     ExpenseEdit
 };
+use App\Http\Livewire\Payment\CreditCard;
 use App\Http\Livewire\Plan\{
     PlanList,
     PlanCreate    
 };
 use App\Models\Expense;
+use App\Services\PagSeguro\Subscription\SubscriptionReaderService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -70,3 +73,17 @@ Route::middleware(['auth:sanctum','verified'])->group(function() {
     
     });
 });
+
+Route::get('subscription', CreditCard::class)->name('plan.subscription');
+
+
+Route::get('/notification', function(){
+
+    $code = '';
+    // $sub = (new SubscriptionReaderService())->getSubscriptionByCode($code);
+    // dd($sub);
+    return (new SubscriptionReaderService())->getSubscriptionByCode($code);
+});
+
+
+Route::get('alpine-jquery', AlpineJquery::class)->name('alpine.jquery');
